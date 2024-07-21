@@ -5,16 +5,17 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { useFormState } from 'react-dom';
 
  
 const FormSchema = z.object({
-  id: z.string({
-    invalid_type_error: 'Please select a customer.',
+  id: z.string(),
+  customerId: z.string({
+    message: 'Please select a customer.',
   }),
-  customerId: z.string(),
   amount: z.coerce.number().gt(0, { message: 'Please enter an amount greater than $0.' }),
   status: z.enum(['pending', 'paid'], {
-    invalid_type_error: 'Please select an invoice status.',
+    message: 'Please select an invoice status.',
   }),
   date: z.string(),
 });
@@ -37,14 +38,16 @@ export async function createInvoice(prevState: State, formData: FormData) {
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
- 
-  // If form validation fails, return errors early. Otherwise, continue.
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
-    };
-  }
+  
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+      
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: 
+          'Missing Fields. Failed to Create Invoice.'
+      };
+    }
  
   // Prepare data for insertion into the database
   const { customerId, amount, status } = validatedFields.data;
@@ -67,6 +70,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
   // Revalidate the cache for the invoices page and redirect the user.
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
+
 }
 // Use Zod to update the expected types
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
@@ -88,7 +92,6 @@ export async function updateInvoice(id: string, formData: FormData) {
     SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
     WHERE id = ${id}
   `;
- 
 } catch (error){
   return {
     message: 'Database Error: Unable to update invoice',
