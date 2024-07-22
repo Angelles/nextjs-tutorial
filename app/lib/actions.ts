@@ -6,7 +6,7 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { useFormState } from 'react-dom';
-import { signIn } from 'app/auth'
+import { signIn } from 'auth';
 import { AuthError } from 'next-auth';
 
 export async function authenticate(
