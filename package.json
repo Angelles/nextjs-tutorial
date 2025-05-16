@@ -27,7 +27,8 @@
     "@types/bcrypt": "^5.0.2",
     "@types/node": "20.14.8",
     "@types/react": "19.1.4",
-    "@types/react-dom": "19.1.5"
+    "@types/react-dom": "19.1.5",
+    "eslint": "^9.26.0"
   },
   "engines": {
     "node": ">=20.12.0"

@@ -1,5 +1,6 @@
-import { useActionState } from "react";
 'use server'; // Server Actions
+import { useActionState } from "react";
+
 
 // validate form data
 import { z } from 'zod';
@@ -133,12 +134,6 @@ export async function updateInvoice(
 }
 
 export async function deleteInvoice(id: string) {
-  try{
   await sql`DELETE FROM invoices WHERE id = ${id}`;
   revalidatePath('/dashboard/invoices');
-  } catch (error){
-    return{
-      message: 'Database Error: Unable to delete invoice',
-    };
-  }
 }
