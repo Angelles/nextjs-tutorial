@@ -1,11 +1,12 @@
 'use server'; // Server Actions
+import { useActionState } from "react";
+
 
 // validate form data
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { useFormState } from 'react-dom';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 
@@ -94,9 +95,9 @@ export async function createInvoice(prevState: State, formData: FormData) {
 }
 // Use Zod to update the expected types
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
- 
+
 // ...
- 
+
 export async function updateInvoice(
   id: string,
   prevState: State,
@@ -133,12 +134,6 @@ export async function updateInvoice(
 }
 
 export async function deleteInvoice(id: string) {
-  try{
   await sql`DELETE FROM invoices WHERE id = ${id}`;
   revalidatePath('/dashboard/invoices');
-  } catch (error){
-    return{
-      message: 'Database Error: Unable to delete invoice',
-    };
-  }
 }
