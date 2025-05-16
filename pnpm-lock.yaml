@@ -1360,7 +1360,7 @@ snapshots:
       '@nodelib/fs.walk': 1.2.8
       glob-parent: 5.1.2
       merge2: 1.4.1
-      micromatch: >=4.0.8
+      micromatch: 4.0.8
 
   fastq@1.17.1:
     dependencies:
@@ -1372,7 +1372,7 @@ snapshots:
 
   foreground-child@3.1.1:
     dependencies:
-      cross-spawn: >=7.0.5
+      cross-spawn: 7.0.5
       signal-exit: 4.1.0
 
   fraction.js@4.3.7: {}
@@ -1820,7 +1820,7 @@ snapshots:
       is-glob: 4.0.3
       jiti: 1.21.0
       lilconfig: 2.1.0
-      micromatch: >=4.0.8
+      micromatch: 4.0.8
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.0.1
